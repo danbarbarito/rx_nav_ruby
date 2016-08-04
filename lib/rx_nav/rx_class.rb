@@ -87,13 +87,13 @@ module RxNav
       # Public: Gets all drugs in the class
       def drugs_in_class drug_class_id, options = {}
 
-        sources = ['ATC', 'DAILYMED', 'FDASPL', 'MESH', 'NDFRT']
+        sources = [{relaSource: 'ATC', rela: ''}, {relaSource: 'DAILYMED', rela: 'has_EPC'}, {relaSource: 'DAILYMED', rela: 'has_Chemical_Structure'}, {relaSource: 'DAILYMED', rela: 'has_MoA'}, {relaSource: 'DAILYMED', rela: 'has_PE'}, {relaSource: 'FDASPL', rela: 'has_EPC'}, {relaSource: 'FDASPL', rela: 'has_Chemical_Structure'}, {relaSource: 'FDASPL', rela: 'has_MoA'}, {relaSource: 'FDASPL', rela: 'has_PE'}, {relaSource: 'MESH', rela: ''}, {relaSource: 'NDFRT', rela: 'CI_with'}, {relaSource: 'NDFRT', rela: 'induces'}, {relaSource: 'NDFRT', rela: 'may_diagnose'}, {relaSource: 'NDFRT', rela: 'may_prevent'}, {relaSource: 'NDFRT', rela: 'may_treat'}, {relaSource: 'NDFRT', rela: 'CI_ChemClass'}, {relaSource: 'NDFRT', rela: 'has_active_metabolites'}, {relaSource: 'NDFRT', rela: 'has_Ingredient'}, {relaSource: 'NDFRT', rela: 'CI_MoA'}, {relaSource: 'NDFRT', rela: 'has_MoA'}, {relaSource: 'NDFRT', rela: 'has_PK'}, {relaSource: 'NDFRT', rela: 'site_of_metabolism'}, {relaSource: 'NDFRT', rela: 'CI_PE'}, {relaSource: 'NDFRT', rela: 'has_PE'}, {relaSource: 'NDFRT', rela: 'has_VAClass'}]
 
         drugs = []
 
         sources.each do |source|
 
-          query = "/classMembers?classId=#{drug_class_id}&relaSource=#{source}"
+          query = "/classMembers?classId=#{drug_class_id}&relaSource=#{source[:relaSource]}&rela=#{source[:rela]}"
 
           params = options.select{ |o| %w(rela_source relas).include? o.to_s }
           query << params.map{ |k,v| "&#{camelize(k.to_s)}=#{v}"}.join("")

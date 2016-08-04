@@ -106,7 +106,9 @@ module RxNav
           c = data[:drug_member_group][:drug_member]
 
           c.each do |concept|
-            drugs << concept[:min_concept][:name]
+            if concept[:min_concept] && concept[:min_concept][:name]
+              drugs << concept[:min_concept][:name]
+            end
           end
 
         end
